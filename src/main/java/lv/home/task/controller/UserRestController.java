@@ -24,7 +24,7 @@ public class UserRestController {
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getById(@PathVariable String id) {
         log.info("Request to get by id user: {}", id);
-        return ResponseEntity.ok(userService.getById(Long.valueOf(id)));
+        return ResponseEntity.ok(userService.getById(Integer.valueOf(id)));
     }
 
     @PostMapping
@@ -37,5 +37,11 @@ public class UserRestController {
                                 .pathSegment(u.getId().toString())
                                 .build().toUri()).build())
                 .orElse(ResponseEntity.badRequest().build());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDto> update(@PathVariable(name = "id") String id, @RequestBody UserDto userDto) {
+        log.info("Request to update user: {}, {}", id, userDto.getEmail());
+        return ResponseEntity.ok(userService.update(Integer.valueOf(id), userDto));
     }
 }

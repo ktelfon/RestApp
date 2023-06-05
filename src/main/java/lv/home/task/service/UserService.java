@@ -24,10 +24,23 @@ public class UserService {
         return userMapper.toDto(user);
     }
 
-    public UserDto getById(Long id) {
-        return userMapper.toDto(userRepo.findById(id).orElseThrow(() -> {
+    public UserDto getById(Integer id) {
+        return userMapper.toDto(userRepo.findById(id)
+                .orElseThrow(() -> {
+                    log.error("No user with id: {}", id);
+                    return new RuntimeException("No user with id:" + id);
+                }));
+    }
+
+    public UserDto update(Integer id, UserDto userDto) {
+        if (!userRepo.existsById(id)) {
             log.error("No user with id: {}", id);
-            return new RuntimeException("No user with id:" + id);
-        }));
+            throw new RuntimeException("No user with id:" + id);
+        }
+
+        User user = userMapper.fromDto(userDto);
+        user.setUserId(id);
+        log.info("Updating user : {} {}", user.getEmail(), user.getSecondName());
+        return userMapper.toDto(userRepo.save(user));
     }
 }
