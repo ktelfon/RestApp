@@ -3,8 +3,6 @@ package lv.home.task.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lv.home.task.dto.UserDto;
-import lv.home.task.mapper.UserMapper;
-import lv.home.task.model.User;
 import lv.home.task.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
